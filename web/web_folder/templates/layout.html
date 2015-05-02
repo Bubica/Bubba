@@ -1,0 +1,39 @@
+<!doctype html>
+
+<head>
+  <title>Bubba</title>
+
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/spinner.css') }}"/>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap/bootstrap.css') }}"/>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap/bootstrap-theme.css') }}"/>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/my_bootstrap.css') }}"/>
+
+  <script src= "{{ url_for('static', filename='js/lib/jquery-1.7.1.min.js') }}" ''></script>
+  <!--<script src= "{{ url_for('static', filename='js/lib/bootstrap/bootstrap.js') }}" ''></script>
+  <script src= "{{ url_for('static', filename='js/lib/bootstrap/npm.js') }}" ''></script> -->
+
+  <script type=text/javascript>
+    // script path - single script
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+
+  {% block head %}{% endblock %}
+</head>
+
+<div class=page>
+  
+  <div class="metanav">
+  {% if not session.logged_in %}
+    <a href="{{ url_for('login') }}">Log in</a>
+  {% else %}
+    <a href="{{ url_for('logout') }}">Log out</a>
+  {% endif %}
+  </div>
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
+
+
+  {% block body %}{% endblock %}
+  
+</div>

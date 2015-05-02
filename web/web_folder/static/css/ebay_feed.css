@@ -1,0 +1,207 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body            
+{ 
+  background: #ffffff;
+}
+
+a, h1, h2       { color: #2D4C85; }
+h1              { border-bottom: 2px solid #2D4C85; }
+h2              { font-size: 1.2em; }
+
+
+.metanav        { text-align: right; font-size: 1.0em; padding: 0.3em;}
+
+.hidden{
+  visibility: hidden;
+}
+
+.hvr-grow { 
+  /*Effect of growing an element when hovering over*/
+
+  /*display: inline-block;*/
+  /*vertical-align: middle;*/
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /*box-shadow: 0 0 1px rgba(0, 0, 0, 0);*/
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+}
+
+.hvr-grow:hover {
+-webkit-transform: scale(1.03);
+transform: scale(1.03);
+}
+
+
+
+/*handles the vertical centering*/
+.Centerer
+{
+  /*display: block;*/
+/*  margin-right: 12px;
+  margin-left: 12px;
+  margin-top: 12px;
+  margin-bottom: 12px;*/
+}
+/*.Centerer.nonselect
+{
+  height: 90%;
+}*/
+
+.btnpannel-feed-edit
+{
+  margin:5px;
+
+}
+
+#container {
+  top: 60px;
+  width: 86%;
+  height: 100%;
+  padding: 12px;
+  border-radius:20px;  
+  margin-left:10px;
+  margin-right:10px;
+
+  background: rgb(191,207,237); /* Old browsers */
+  background: -moz-linear-gradient(left,  rgba(191,207,237,1) 32%, rgba(177,192,219,1) 64%, rgba(156,170,196,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(32%,rgba(191,207,237,1)), color-stop(64%,rgba(177,192,219,1)), color-stop(100%,rgba(156,170,196,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(191,207,237,1) 32%,rgba(177,192,219,1) 64%,rgba(156,170,196,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  fdfcfb 32%,rgba(177,192,219,1) 64%,rgba(156,170,196,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(191,207,237,1) 32%,rgba(177,192,219,1) 64%,rgba(156,170,196,1) 100%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(191,207,237,1) 32%,rgba(177,192,219,1) 64%,rgba(156,170,196,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfcfed', endColorstr='#9caac4',GradientType=1 ); /* IE6-9 */
+  border: 4px solid #7595D1;
+}
+
+#container.edit
+{
+  background: #ffe6d1; /* Old browsers */
+  background: -moz-linear-gradient(left,  #ffe6d1 0%, #ffd2aa 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffe6d1), color-stop(100%,#ffd2aa)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  #ffe6d1 0%,#ffd2aa 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  #ffe6d1 0%,#ffd2aa 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  #ffe6d1 0%,#ffd2aa 100%); /* IE10+ */
+  background: linear-gradient(to right,  #ffe6d1 0%,#ffd2aa 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe6d1', endColorstr='#ffd2aa',GradientType=1 ); /* IE6-9 */
+  border: 4px solid #FFB67A;
+}
+
+.item 
+{
+  text-align: center;
+  margin-top: 15px;
+  border-radius: 15px;
+  display: inline-block;
+  width: 280px; /*Fixed width of all masonry blocks*/
+  padding-left:5px;
+  padding-right:5px;
+
+  border: 4px solid #7595D1;
+  background: #DAE2F0;
+}
+
+.item.edit
+{
+  border: 4px solid #FFC699;
+  background: #FFF2E8;
+}
+
+.item:hover 
+{
+    border-color: #2D4C85;
+    cursor: pointer;
+}
+
+.item.edit:hover 
+{
+  border-color:#FF8121;
+}
+
+
+/*.item.L07 > span { height: 400px; }*/ /*Ratio == 0.7 */
+/*.item.L08 > span { height: 350px; }*/ /*Ratio == 0.8 */
+/*.item.L10 > span { height: 280px; }*/ /*Ratio == 1 */
+/*.item.L12 > span { height: 233px; }*/ /*Ratio == 1.2 */
+/*.item.L14 > span { height: 200px; }*/ /*Ratio == 1.4 */
+/*.item.L16 > span { height: 175px; }*/ /*Ratio == 1.6 */
+
+
+/*.item.selected{
+  width:  280px;
+  height: 500px;
+  margin-bottom: 16px;
+}*/
+
+.item h2
+{
+    font-size: 1.4vw;
+    margin: 0;
+    padding-bottom:5px;
+    padding-top:5px;
+}
+
+.item img 
+{ 
+  max-width:100%; 
+  max-height:400px;
+  border-radius: 15px;
+}
+
+.tick
+{
+  position:absolute;
+  top:0; 
+  left:0;
+}
+/* ********************* ENABLING/DISABLING LINKS **********************/
+a {
+    pointer-events: auto;
+}
+
+a.disabled {
+    pointer-events: none;
+}
+
+/* ********************* FIXED BAR **********************/
+
+.topbar {
+    position: fixed;
+    top: 80px;
+    left: 10px;
+    right: 10px;
+    /*z-index: 1000;*/
+    display: block;
+    padding: 20px;
+    margin-left: 30px;
+    margin-right: 30px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #ffffff;
+    /*background: rgb(191,207,237); */
+    
+    border: 4px solid #7595D1;
+    border-radius: 15px;
+  }
+}
+
+/* Sidebar navigation */
+.nav-topbar {
+  margin-right: 0px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: 0px;
+}
+
+
+
+  

@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block head %}
+  
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/ebay_feed.css') }}"/>
+  
+  <script src= "{{ url_for('static', filename='js/lib/masonry.pkgd.min.js') }}" ''></script>
+  <script src= "{{ url_for('static', filename='js/lib/classie.js') }}" ''></script>
+  <script src= "{{ url_for('static', filename='js/lib/imagesloaded.pkgd.min.js') }}" ''></script>
+  <script src= "{{ url_for('static', filename='js/lib/jquery.infinitescroll.js') }}" ''></script>
+  
+
+  <script src= "{{ url_for('static', filename='js/feed_display.js') }}" ''></script> 
+  <script src= "{{ url_for('static', filename='js/feed_load.js') }}" ''></script> 
+  <script src= "{{ url_for('static', filename='js/log.js') }}" ''></script> 
+
+  <script>
+
+    function startup(){
+
+      // init everything
+      init_time_log($SCRIPT_ROOT + '/exit');
+      init_seller_log($SCRIPT_ROOT + '/log_ignore_seller');
+
+      initMsnryFeed();
+      initEditButtons("{{ url_for('static', filename='img/blue-tick.png') }}");
+      initInfScroll();
+
+      start_feed_load($SCRIPT_ROOT + '/feed_load');
+  }
+  </script>
+
+
+{% endblock %}
+
+{% block body %}
+
+<body onload="javascript:startup()"> 
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Text:
+        <dd><textarea name=text rows=5 cols=40></textarea>
+        <dd><input type=submit value=Share>
+      </dl>
+    </form>
+  {% endif %}
+
+        <div class="navbar navbar-default navbar-fixed-top">
+          <a class="navbar-brand" href="#">eBay Search Feed</a>
+           <!-- <ul class="nav nav-sidebar"> -->
+           <!-- <ul class="navbar-header"> -->
+           <div class = "btnpannel-feed-edit">
+            <button id="ignore_items" type="button" class="btn btn-feed-edit">Ignore items</button>
+            <button id="ignore_sellers" type="button" class="btn btn-feed-edit">Ignore sellers</button>
+            <button id="price_drop" type="button" class="btn btn-feed-edit">Price drop track</button>
+            <button id="done" type="button" class="btn btn-feed-edit">Done!</button>
+          </div>
+        </div>
+
+
+        <div id="container">
+          <div style = "overflow: scroll;">
+          {% for entry in entries %}
+          <div class="item hidden" id="{{entry.itemId}}"+","+"{{entry.searchId}}">
+            
+                  <h2> {{entry.searchName}} </h2>
+                  <a href="{{ entry.itemURL}}" target="_blank">
+                    <img src="{{ entry.pictureURL }}"/> 
+                  </a>
+                  <h2> Price: &#163; {{entry.priceValue}} </h2>
+                  <img src ="{{ url_for('static', filename='img/blue-tick.png') }}"/>
+
+          </div>  
+          {% endfor %}
+
+          {% if entries|length==0 %}
+          <div id="spinner" class="spinner overlay"></div>
+          {% endif %}
+          
+          <!-- INFINITE SCROLL TAG -->
+          <nav id="page-nav">
+            <a href="http://127.0.0.1:5000/feed/2.html"></a>
+          </nav>
+
+        </div>
+
+
+
+      <!-- </div> -->
+    </div>
+</body>
+{% endblock %}
