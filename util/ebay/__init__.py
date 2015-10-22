@@ -1,3 +1,0 @@
-"""
-Extensions to ebay module.
-"""

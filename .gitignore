@@ -1,12 +1,15 @@
-.DS_Store
 *.pyc
+*.pbf
 
-*~
-*.swp
-lib
-test*
-*.log
-keys.config
+*.pem
+
+*.plist
+
+.DS_Store
+.gitignore
 ebay.apikey
-dump.rdb
-temp*.html
+keys.config
+
+app/retailer/
+web/static/logs/
+web/instance/
