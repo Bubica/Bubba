@@ -1,0 +1,10 @@
+[call]
+#siteid, global_id: Identify the eBay site with the items you want 
+#   information about, e.g. 
+#   US:      siteid = 0,  		global_id = EBAY-US
+#   DE: 	 siteid = 77, 		global_id = EBAY-DE
+#   UK: 	 siteid = 3,	  	global_id = EBAY-GB
+#   ES: 	 siteid = 186,	  	global_id = EBAY-GB
+#   IT: 	 siteid = 101,	  	global_id = EBAY-IT
+siteid = 0
+global_id = EBAY-US
