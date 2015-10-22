@@ -9,7 +9,9 @@
 .gitignore
 ebay.apikey
 keys.config
+config.py
 
 app/retailer/
 web/static/logs/
 web/instance/
+app/ebay/lib_wrapper/original-python-ebay-master/

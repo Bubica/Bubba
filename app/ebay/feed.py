@@ -4,10 +4,10 @@ import dateutil.parser
 import pytz
 import setup
 import search
-import util.ebay.finding as ebay_find
-import util.ebay.trading as ebay_trade
+import lib_wrapper.finding as ebay_find
+import lib_wrapper.trading as ebay_trade
 import datetime
-from lib import xmltodict
+from util import xmltodict
 from collections import defaultdict
 
 
