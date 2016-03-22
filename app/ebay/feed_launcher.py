@@ -70,7 +70,6 @@ class Launcher(object):
             _last = self.lastLoaded
 
         elif self.searchTree.index(_last) == len(self.searchTree)-1:
-            print "All done"
             raise StopIteration #all searches loaded
 
         #select the search group
@@ -150,9 +149,9 @@ class Launcher(object):
 
         """
         Adds new items to ignore items log.
-        All irems that have been retrieved will be placed into this log.
+        All items that have been retrieved will be placed into this log.
         """
-        #TODO implement the mechanism for removing ignored items?!
+        #TODO implement the mechanism for removing ignored items (after some time) to prevent overflowing?!
         #TODO better implementation required!
         fname = self.data_folder + self.IGNORE_ITEMS_HASH_LOG
 
@@ -179,7 +178,7 @@ class Launcher(object):
 
     def _updateFetchTimeLog(self, searchid):
 
-        """ Update log time of this search: time of each serach will be set to time app has been started """
+        """ Update log time of this search: time of each search will be set to time app has been started """
 
         #TODO - this should be the time of fetch and only for displayed searches !
 

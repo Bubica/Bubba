@@ -89,12 +89,12 @@ class SearchGroup(object):
 class SearchRequest(object):
 
     ITEM_FILTER_TYPES = ['ListingType', 'Condition', 'LocatedIn', 'MinPrice', 'MaxPrice', 'MaxDistance', 'ReturnsAcceptedOnly', 'Seller']
-    ASPECT_FILTER_TYPES = ['Size', 'Shoe Size', 'Trouser Size', 'Cup Size', 'Chest Size', 'Brand', 'Material', 'Main Colour', 'Color', 'Metal', 'Material', 'Main Stone', 'Style', 'Length']
 
     def __init__(self, id_):
         self.id = id_
         self.d = {}
         self.parentGroup = None
+        self.ASPECT_FILTER_TYPES = []
 
     def setSearchGroup(self, group):
         self.parentGroup = group #pointer to the parent
@@ -109,6 +109,9 @@ class SearchRequest(object):
         if value is not None and value != '':
             self.d[key] = value
 
+    def addAspectFilter(self, aspect_filter_type):
+        self.ASPECT_FILTER_TYPES.append(aspect_filter_type)
+
     def getItemFilters(self):
         return filter(lambda x: x in self.ITEM_FILTER_TYPES, self.d.keys())
 
@@ -118,10 +121,6 @@ class SearchRequest(object):
     def __contains__(self, key):
         return key in self.d.keys()
 
-    def __str__(self):
-        return str(self['keywords'])+" in "+str(self['categoryId'])
-
-
     #Relying on url alone is fine if I'm using locally parsed bookmarks...
     def __hash__(self):
         # return hash(self.d['url'])
@@ -130,13 +129,24 @@ class SearchRequest(object):
     def __eq__(self, other):
         if self.__class__ != other.__class__: 
             return False
-        # return (self.d['url']) == (other.d['url'])
         return (self.id) == (other.id)
 
     def __str__(self):
-        s = ""
+        s = "\n"
         if 'name' in self.d:
-            s +="Search: " + str(self.d['name']) + " --- category: "+str(self['categoryId'])+" -- item filters: " + str(self.getItemFilters()) + " -- aspect filters: " + str(self.getAspectFilters())
+            s +="Search name: " + str(self.d['name']) +"\n"
+
+        if 'keywords' in self.d:
+            s +="--- keywords: " + str(self.d['keywords']) +"\n"
+
+        if 'categoryId' in self.d:
+            s += "--- category: "+ str(self['categoryId'])+ "\n"
+
+        for i in self.getItemFilters():
+            s+= "--- item filter: " + i + " = " + str(self[i]) +"\n"
+
+        for i in self.getAspectFilters():
+            s+= "--- aspect filter: " + i + " = " + str(self[i]) +"\n"
 
         return s
 

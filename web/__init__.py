@@ -13,9 +13,3 @@ web_app.config.update(
     CELERY_BROKER_URL='redis://localhost:6379',
     CELERY_RESULT_BACKEND='redis://localhost:6379'
 )
-print 
-print "Creating app:", __name__
-print "Static folder", web_app.static_folder
-print
-# app.config.from_object('config')
-# app.config.from_pyfile('config.py') #from instance folder (sensitive config) #TODO - fix the bug

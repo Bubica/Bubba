@@ -97,5 +97,4 @@ def feed_load_bckg(self):
             #terminate when all searches have been run
             done = True
 
-    print "Celery ---- DONE! All searches finished!" 
     return {'pgCnt': paginator.getPgCount(), 'searchCnt':i, 'status': 'FINISHED!', 'done':'yes'}

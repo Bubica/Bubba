@@ -36,45 +36,7 @@ class Paginator(object):
             self.current_page_cnt += 1 #first temp page startes with number 2 - (hardcoded in infinite scroll javascript)
             html_fname = self.template_folder+"/"+"temp"+str(self.current_page_cnt)+".html"
 
-            self._writePg(html_fname, self.item_buffer[:self.ITEMS_PER_PAGE])
-            # f = open(html_fname, 'w')
-
-            # f.write("<html>\n") 
-            # f.write("<body>\n") 
-            # f.write("<div id=\"container\">")
-
-            # #number of items displayed in this page
-            # for i in range(self.ITEMS_PER_PAGE):
-
-            #     entry = self.item_buffer[i]
-
-            #     f.write("    <div class=\"item default hvr-grow\" data-itemid=\""+str(entry.itemId)+"\" data-searchid=\""+str(entry.searchId)+"\" data-sellerid=\""+str(entry.sellerId)+"\" data-title=\""+str(entry.title)+"\">"+"\n")
-            #     f.write("            <img class=\"tick hidden\" src=\"{{ url_for('static', filename='img/blue-tick.png') }}\">"+"\n")
-            #     f.write("            <h2> " + str(entry.searchName)+ "</h2>"+"\n")
-            #     f.write("            <div class=\"img_wrap\">"+"\n")
-            #     f.write("            <a id=\"itemURL\" href=\""+ str(entry.itemURL) + "\" target=\"_blank\">"+"\n")
-            #     f.write("                   <img src=\""+ str(entry.pictureURL)+"\"/> "+"\n")
-            #     f.write("                   <span class=\"title\"><span>"+str(entry.title)+"</span></span>"+"\n")
-            #     f.write("            </a>"+"\n")
-            #     f.write("            </div>"+"\n")
-
-            #     if entry.priceCurrency =="USD":
-            #         curr_sign = "&#36;"
-            #     elif entry.priceCurrency =="GBP":
-            #         curr_sign = "&#163;"
-            #     else:
-            #         curr_sign = ""
-
-            #     f.write("            <h2> Price: "+curr_sign + " " + str(entry.priceValue) +"</h2>"+"\n")
-            #     f.write("    </div>"+"\n")
-
-            # f.write("</div>")
-            # f.write("</body>\n") 
-            # f.write("</html>\n")
-
-            # f.close()
-
-            
+            self._writePg(html_fname, self.item_buffer[:self.ITEMS_PER_PAGE])        
             self.item_buffer = self.item_buffer[self.ITEMS_PER_PAGE:]
 
         #Write the remaining ones to temp dump file, but keep them in item_buffer as well

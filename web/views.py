@@ -17,10 +17,6 @@ sys.stdout = open('views_output.txt', 'w',0)
 def show_feed():
 
     """ Renders feed html page but loading of items happens in the background task """
-
-    print "Starting feed"
-    sys.stdout.flush()
-
     entries = []
     return render_template('show_feed.html' , entries=entries)
 
@@ -29,22 +25,16 @@ def show_feed():
 def get_feed_pg(pgNo):
 
     """ Used for infinite scroll """
-    
-    print "Rendering page "+str(pgNo),
-
     tmpl = "temp"+str(pgNo)+'.html'
     dir_tmpl_list = os.listdir(app.template_folder)
     
     if tmpl in dir_tmpl_list:
-        print "success"
         return render_template(tmpl)
 
-    print "failed"
     return 'None' #Has to return string
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print "Login method"
     error = None
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:
@@ -63,12 +53,7 @@ def login():
 """ Celery - background feed load """
 @app.route('/feed_load', methods = ['POST'])
 def feed_load():
-
-    print "LOADING FEED"
-
     celery_task =  celery_worker.feed_load_bckg.apply_async()
-
-    print "Background feed load started, ID:", str(celery_task.id)
     return jsonify({}), 202, { \
     'update_url': url_for('feed_update', task_id=celery_task.id), \
     'terminate_url': url_for('feed_terminate', task_id=celery_task.id), \
@@ -80,8 +65,6 @@ def feed_update(task_id):
     """ Updates the state of the background task """
 
     task =  celery_worker.feed_load_bckg.AsyncResult(task_id)
-    print "Feed update: task id", task_id, task.state
-
     if task.state == 'PENDING':
         # job did not start yet
         resp = {
@@ -115,13 +98,6 @@ def feed_update(task_id):
 
 @app.route('/feed_terminate/<task_id>')
 def feed_terminate(task_id):
-
-    print
-    print "************************************************************"
-    print "EXIT"
-    print "************************************************************"
-    print
-
     #stop the feed generating task
     task =  celery_worker.feed_load_bckg.AsyncResult(task_id)
     task.revoke(terminate = True)
@@ -143,9 +119,6 @@ def feed_terminate(task_id):
 
 @app.route('/log', methods=['POST'])
 def log():
-
-    print "LOG", datetime.datetime.now()
-
     #Extract ignored items form the request
     items = request.form['items']
     
@@ -169,8 +142,6 @@ def log():
     #Obtain access to "db" that is currently only a set of files
     feed_manip = feed_launcher.Launcher(app.static_folder + '/logs')
     r = feed_manip.exit(sellers, items, [])
-
-    print "Ret", r
 
     return 'OK'
 

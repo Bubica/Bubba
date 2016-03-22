@@ -2,6 +2,8 @@ import ignore
 import datetime
 import dateutil.parser
 import pytz
+import logging
+
 import setup
 import search
 import lib_wrapper.finding as ebay_find
@@ -10,6 +12,7 @@ import datetime
 from util import xmltodict
 from collections import defaultdict
 
+logger = logging.Logger(__file__)
 
 class UserFeed(object):
 
@@ -57,7 +60,6 @@ class UserFeed(object):
         f = open(self.data_folder + self.IGNORE_ITEMS_LOG,'r')
         self.ignored_items = defaultdict(list)
         for i in f.readlines():
-            print i
             search_id, id_, end_t = i.split(',')
             end_t = dateutil.parser.parse(end_t.strip())
             self.ignored_items[search_id].append((id_, end_t))
@@ -200,8 +202,6 @@ class UserFeed(object):
             categoryId = None if 'categoryId' not in searchReq else searchReq['categoryId']
             keywords = None if 'keywords' not in searchReq else searchReq['keywords']
 
-            print categoryId, keywords
-
             #Perform the search
             res_str = ebay_find.findItemsAdvanced( 
             keywords=keywords, 
@@ -217,7 +217,8 @@ class UserFeed(object):
   
             #some weird error?!
             if 'paginationOutput' not in res[0]:
-                print 
+                print "ERR"
+                logger.error("No paginationOutput")
                 print res[0]
                 return
 
@@ -229,6 +230,8 @@ class UserFeed(object):
             
             if pages_total == 0:
                 #No results of this search found
+                print "No results", searchReq
+                print res[0]['paginationOutput'][0]
                 break
 
             res = res[0]['searchResult'][0]['item']
@@ -242,8 +245,8 @@ class UserFeed(object):
             #Apply filters
             items = self._timeFilter(items, searchReq.id)
             prev_time_filtered_no = len(items) #number of elements retained after time filtering
-            items = self._sellerFilter(items)
-            items = self._itemFilter(searchReq.id, items)
+            # items = self._sellerFilter(items)
+            # items = self._itemFilter(searchReq.id, items)
 
             if len(items)>0:
                 self.searches[searchReq.id].extend(items) #store items of this page
@@ -299,7 +302,6 @@ class UserFeed(object):
                 #repeat the process for the new item (which might have also finished)
                 status = xmltodict.parse(ebay_trade.GetItem(id_))
                 list_details = status['GetItemResponse']['Item']['ListingDetails']
-                print "Relisted", list_details['EndTime']
                 end_t = dateutil.parser.parse(list_details['EndTime'].strip())
                 
             ignore_list_updated.append((id_, end_t))
