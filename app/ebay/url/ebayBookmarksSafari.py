@@ -6,7 +6,7 @@
 import sys, os, codecs, plistlib
 
 from .. import search
-import ebayUrl
+from .parser import parse
 
 book_fname = "Library/Safari/Bookmarks.plist"
 
@@ -76,7 +76,7 @@ def _filter(xmlTag, rootNode, ebayFlag = 0, depth = 0, folderPrefix="", _searchC
             url = xmlTag["URLString"]
             name = xmlTag["URIDictionary"]['title'] #bookmark name - as defined by the user
             
-            s = ebayUrl.parse(url, name)
+            s = parse(url, name)
 
             if s:
                 s.setSearchGroup(rootNode)

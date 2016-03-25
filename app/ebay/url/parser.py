@@ -1,6 +1,7 @@
 from ..search import SearchRequest
 import string
 import urllib
+from urlparse import urlparse
 from collections import defaultdict
 import re
 
@@ -9,23 +10,6 @@ def _format_keywords(kwords):
     #Multiple keywords are concatenated with + sign - translate both to the simple space
     kwords = kwords.replace("+", " ")
     return kwords
-
-def _url_special_char_decoding(url):
-
-    """ Special url characterters decoding """
-
-    url_decoded = url
-    url_decoded_prev = ""
-
-    try:
-        #Multiple keywords are concatenated with either + sign or %20 string - translate both to the simple space
-        while url_decoded != url_decoded_prev:
-            url_decoded_prev = url_decoded
-            url_decoded = urllib.unquote(url_decoded_prev).decode('utf8', errors = 'replace') 
-    except UnicodeEncodeError:
-        pass #TODO -- fails when using: http://www.ebay.co.uk/sch/Health-Beauty-/26395/i.html?LH_Auction=1&_from=R40&_sop=10&_nkw=brush&LH_PrefLoc=1&_dcat=82597&rt=nc&_pppn=r1&Brand=CHANEL%7CChristian%2520Dior%7CLanc%25C3%25B4me%7CNARS%7CYSL%252C%2520Yves%2520Saint%2520Laurent
-    
-    return url_decoded
 
 def _format_multi_param(param_str):
 
@@ -38,8 +22,10 @@ def parse(url, name=None):
 
     """ Converts the content of url into search request object"""
 
-    if ".ebay." not in url: 
-        return  None #Non ebay link in ebay folder - skip it
+    base_net_address, path, search_params = _parse_base_ebay_url(url)
+
+    if not _is_valid_ebay_url_link(base_net_address):
+        return None
 
     url_orig = url
     url = _url_special_char_decoding(url)
@@ -183,13 +169,59 @@ def parse(url, name=None):
 
     return sinstance
 
-# from unittest import TestCase
 
-# class TestEbayUrl(TestCase):
+def _is_valid_ebay_url_link(base_net_address):
+    return ".ebay." not in base_net_address
 
-#     def test_parser(self):
-#         test_url1 = 
+def _url_special_char_decoding(url):
 
+    """ Special url characterters decoding """
+
+    url_decoded = url
+    url_decoded_prev = ""
+
+    try:
+        #Multiple keywords are concatenated with either + sign or %20 string - translate both to the simple space
+        while url_decoded != url_decoded_prev:
+            url_decoded_prev = url_decoded
+            url_decoded = urllib.unquote(url_decoded_prev).decode('utf8', errors = 'replace') 
+    except UnicodeEncodeError:
+        pass #TODO -- fails when using: http://www.ebay.co.uk/sch/Health-Beauty-/26395/i.html?LH_Auction=1&_from=R40&_sop=10&_nkw=brush&LH_PrefLoc=1&_dcat=82597&rt=nc&_pppn=r1&Brand=CHANEL%7CChristian%2520Dior%7CLanc%25C3%25B4me%7CNARS%7CYSL%252C%2520Yves%2520Saint%2520Laurent
+    return url_decoded
+
+
+def _parse_base_ebay_url(url_string):
+    parse_result = urlparse(url_string)
+    base_net_address = parse_result.netloc
+    path = parse_result.path
+    search_params = parse_result.query
+
+    return base_net_address, path, search_params
+
+
+""" ####################################### TESTS ################################################ """
+
+
+from unittest import TestCase
+
+class TestEbayUrl(TestCase):
+
+    def test_simple_search_url(self):
+        test_url1 = None
+
+    def test_seller_search(self):
+        test_url_with_seller_in_query = "http://www.ebay.co.uk/sch/m.html?_nkw=&_armrs=1&_ipg=&_from=&_ssn=*polkadots*&_sop=10"
+        test_url_with_seller_in_path = "http://www.ebay.co.uk/sch/adey2571/m.html?_nkw=&_armrs=1&_ipg=&_from="
+
+    def test_seller_search_with_params(self):
+        test_url = "http://www.ebay.co.uk/sch/m.html?_nkw=&_armrs=1&_ipg=&_from=&_ssn=*polkadots*&_sop=10"
+
+    def test_category_search(self):
+        pass
+
+    def test_special_char_encoding(self):
+        test_url = ""
+        _url_special_char_decoding(search_params)
 
 
 
